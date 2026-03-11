@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/aspire/">
+    <Project Path="aspire/LexiBridge.AppHost/LexiBridge.AppHost.csproj" />
+    <Project Path="aspire/LexiBridge.ServiceDefaults/LexiBridge.ServiceDefaults.csproj" />
+  </Folder>
+  <Folder Name="/sources/">
+    <Project Path="sources/LexiBridge.ApiService/LexiBridge.ApiService.csproj" />
+    <Project Path="sources/LexiBridge.Web/LexiBridge.Web.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LexiBridge.Tests/LexiBridge.Tests.csproj" />
+  </Folder>
+</Solution>
