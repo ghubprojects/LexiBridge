@@ -1,4 +1,4 @@
-﻿using LexiBridge.Domain.Aggregates.DictionaryEntries;
+﻿using LexiBridge.Domain.Aggregates.DictionaryEntries.Enums;
 using LexiBridge.Domain.SeedWork;
 
 namespace LexiBridge.Domain.Aggregates.LearningItems;
@@ -19,12 +19,11 @@ public sealed class LearningItem : AggregateRoot<Guid>, IAuditableEntity, ISoftD
     // Learning content
     public string Definition { get; private set; } = default!;
     public string Translation { get; private set; } = default!;
-    public string Example { get; private set; } = default!;
     public string Cloze { get; private set; } = default!;
 
     // Media
-    public string? AudioUrl { get; private set; } = default!;
-    public string? ImageUrl { get; private set; } = default!;
+    public string? AudioUrl { get; private set; }
+    public string? ImageUrl { get; private set; }
 
     // Examples
     private readonly List<LearningExample> _examples = [];
@@ -58,7 +57,6 @@ public sealed class LearningItem : AggregateRoot<Guid>, IAuditableEntity, ISoftD
         string ipa,
         string definition,
         string translation,
-        string example,
         string cloze,
         string? audioUrl,
         string? imageUrl,
@@ -77,13 +75,11 @@ public sealed class LearningItem : AggregateRoot<Guid>, IAuditableEntity, ISoftD
 
         Definition = definition;
         Translation = translation;
-        Example = example;
         Cloze = cloze;
 
         AudioUrl = audioUrl;
         ImageUrl = imageUrl;
     }
-
 
     public static LearningItem Create(
         Guid deckId,
@@ -94,7 +90,6 @@ public sealed class LearningItem : AggregateRoot<Guid>, IAuditableEntity, ISoftD
         string ipa,
         string definition,
         string translation,
-        string example,
         string cloze,
         string? audioUrl = null,
         string? imageUrl = null,
@@ -109,7 +104,6 @@ public sealed class LearningItem : AggregateRoot<Guid>, IAuditableEntity, ISoftD
             ipa,
             definition,
             translation,
-            example,
             cloze,
             audioUrl,
             imageUrl,

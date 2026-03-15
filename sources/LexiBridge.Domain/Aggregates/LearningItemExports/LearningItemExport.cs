@@ -1,11 +1,16 @@
-﻿using LexiBridge.Domain.SeedWork;
+﻿using LexiBridge.Domain.Aggregates.LearningItemExports.Enums;
+using LexiBridge.Domain.Aggregates.LearningItemExports.Errors;
+using LexiBridge.Domain.SeedWork;
+using LexiBridge.Shared.Results;
 
 namespace LexiBridge.Domain.Aggregates.LearningItemExports;
 
 public sealed class LearningItemExport : AggregateRoot<Guid>
 {
     public Guid LearningItemId { get; private set; }
-    public ExportDestination Provider { get; private set; }
+    public Guid CardTemplateId { get; private set; }
+
+    public ExportDestination Destination { get; private set; }
     public ExportStatus Status { get; private set; }
     public int Attempts { get; private set; }
     public string? ExternalId { get; private set; }
@@ -14,47 +19,54 @@ public sealed class LearningItemExport : AggregateRoot<Guid>
 
     private LearningItemExport() { }
 
-    private LearningItemExport(Guid learningItemId, ExportDestination provider)
+    private LearningItemExport(Guid learningItemId, Guid cardTemplateId, ExportDestination destination)
     {
         Id = Guid.CreateVersion7();
         LearningItemId = learningItemId;
-        Provider = provider;
+        CardTemplateId = cardTemplateId;
+        Destination = destination;
         Status = ExportStatus.Pending;
         Attempts = 0;
     }
 
-    public static LearningItemExport Create(Guid learningItemId, ExportDestination provider)
+    public static LearningItemExport Create(Guid learningItemId, Guid cardTemplateId, ExportDestination destination)
     {
-        return new LearningItemExport(learningItemId, provider);
+        return new LearningItemExport(learningItemId, cardTemplateId, destination);
     }
 
-    public void MarkProcessing()
+    public Result MarkProcessing()
     {
         if (Status == ExportStatus.Success)
-            throw new InvalidOperationException("Export already succeeded.");
+            return Result.Failure(LearningItemExportErrors.AlreadySucceeded);
 
         Status = ExportStatus.Processing;
         Attempts++;
         Error = null;
+
+        return Result.Success();
     }
 
-    public void MarkSuccess(string externalId)
+    public Result MarkSuccess(string externalId)
     {
         if (Status != ExportStatus.Processing)
-            throw new InvalidOperationException("Export must be processing before success.");
+            return Result.Failure(LearningItemExportErrors.InvalidStatusForSuccess);
 
         Status = ExportStatus.Success;
         ExternalId = externalId;
         ExportedAt = DateTimeOffset.UtcNow;
         Error = null;
+
+        return Result.Success();
     }
 
-    public void MarkFailed(string error)
+    public Result MarkFailed(string error)
     {
         if (Status != ExportStatus.Processing)
-            throw new InvalidOperationException("Export must be processing before failing.");
+            return Result.Failure(LearningItemExportErrors.InvalidStatusForFailure);
 
         Status = ExportStatus.Failed;
         Error = error;
+
+        return Result.Success();
     }
 }

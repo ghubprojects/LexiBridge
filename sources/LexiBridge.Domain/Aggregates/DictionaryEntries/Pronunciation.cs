@@ -1,4 +1,5 @@
-﻿using LexiBridge.Domain.SeedWork;
+﻿using LexiBridge.Domain.Aggregates.DictionaryEntries.Enums;
+using LexiBridge.Domain.SeedWork;
 
 namespace LexiBridge.Domain.Aggregates.DictionaryEntries;
 

@@ -41,7 +41,7 @@ public sealed class CardType : Entity<Guid>, IAuditableEntity, ISoftDeleteEntity
         BackHtml = backHtml;
     }
 
-    public static CardType Create(
+    internal static CardType Create(
         Guid cardTemplateId,
         string name,
         string frontHtml,
@@ -54,7 +54,7 @@ public sealed class CardType : Entity<Guid>, IAuditableEntity, ISoftDeleteEntity
             backHtml);
     }
 
-    public void Update(string frontHtml, string backHtml)
+    internal void Update(string frontHtml, string backHtml)
     {
         FrontHtml = frontHtml;
         BackHtml = backHtml;
