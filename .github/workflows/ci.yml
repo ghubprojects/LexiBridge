@@ -1,0 +1,47 @@
+name: lexibridge-ci
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+  pull_request:
+    branches:
+      - main
+      - develop
+
+env:
+  DOTNET_VERSION: "10.0.x"
+  SOLUTION_FILE: "LexiBridge.slnx"
+
+jobs:
+  build-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Cache NuGet packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.nuget/packages
+          key: nuget-${{ runner.os }}-${{ hashFiles('**/*.csproj') }}
+          restore-keys: |
+            nuget-${{ runner.os }}-
+
+      - name: Restore dependencies
+        run: dotnet restore $SOLUTION_FILE
+
+      - name: Build solution
+        run: dotnet build $SOLUTION_FILE --configuration Release --no-restore
+      
+      # Integration tests (disabled for CI).
+      # Will be executed in a nightly workflow.
+      # - name: Run integration tests
+      #   run: dotnet test tests/LexiBridge.Tests/LexiBridge.Tests.csproj --configuration Release --no-build --verbosity normal
