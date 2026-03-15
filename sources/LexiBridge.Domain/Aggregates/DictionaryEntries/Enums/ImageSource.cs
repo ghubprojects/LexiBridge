@@ -1,4 +1,4 @@
-﻿namespace LexiBridge.Domain.Aggregates.DictionaryEntries;
+﻿namespace LexiBridge.Domain.Aggregates.DictionaryEntries.Enums;
 
 public enum ImageSource
 {

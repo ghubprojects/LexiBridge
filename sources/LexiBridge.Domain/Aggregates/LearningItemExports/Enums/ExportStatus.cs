@@ -1,4 +1,4 @@
-﻿namespace LexiBridge.Domain.Aggregates.LearningItemExports;
+﻿namespace LexiBridge.Domain.Aggregates.LearningItemExports.Enums;
 
 public enum ExportStatus
 {
