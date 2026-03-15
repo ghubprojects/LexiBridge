@@ -5,6 +5,8 @@
   </Folder>
   <Folder Name="/sources/">
     <Project Path="sources/LexiBridge.ApiService/LexiBridge.ApiService.csproj" />
+    <Project Path="sources/LexiBridge.Domain/LexiBridge.Domain.csproj" />
+    <Project Path="sources/LexiBridge.Shared/LexiBridge.Shared.csproj" />
     <Project Path="sources/LexiBridge.Web/LexiBridge.Web.csproj" />
   </Folder>
   <Folder Name="/tests/">
